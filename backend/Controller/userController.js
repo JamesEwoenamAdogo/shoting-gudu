@@ -7,7 +7,7 @@ dotenv.config()
 export const signUp = async(req,res)=>{
     try{
         // console.log(req.body)
-        const {firstName, userName, D_O_B,password,confirm_Password,phoneNumber}= req.body
+        const {firstName, userName, D_O_B,password,confirm_Password,phoneNumber,OTP}= req.body
         const passwordMatch = confirm_Password==password
         const allFields = firstName && userName && userName && D_O_B&& password && confirm_Password && phoneNumber
         const existingUserName = await userSchema.find({userName})
@@ -27,7 +27,7 @@ export const signUp = async(req,res)=>{
         }
         
         const hashedPassword = await bcrypt.hash(password,10)
-        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber})
+        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP})
         newUser.save()
         return res.json({success:true, newUser})
 
